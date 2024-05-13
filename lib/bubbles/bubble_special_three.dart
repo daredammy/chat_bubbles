@@ -42,10 +42,10 @@ class BubbleSpecialThree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool stateTick = false;
-    Icon? stateIcon;
+    Widget? stateWidget;
     if (sent) {
       stateTick = true;
-      stateIcon = const Icon(
+      stateWidget = const Icon(
         Icons.done,
         size: 18,
         color: Color(0xFF97AD8E),
@@ -53,7 +53,7 @@ class BubbleSpecialThree extends StatelessWidget {
     }
     if (delivered) {
       stateTick = true;
-      stateIcon = const Icon(
+      stateWidget = const Icon(
         Icons.done_all,
         size: 18,
         color: Color(0xFF97AD8E),
@@ -61,10 +61,20 @@ class BubbleSpecialThree extends StatelessWidget {
     }
     if (seen) {
       stateTick = true;
-      stateIcon = const Icon(
+      stateWidget = const Icon(
         Icons.done_all,
         size: 18,
         color: Color(0xFF92DEDA),
+      );
+    }
+    if (bottomRightText.isNotEmpty) {
+      stateTick = true;
+      stateWidget = Text(
+        bottomRightText,
+        style: textStyle.copyWith(
+          fontSize: 12,
+          color: textStyle.color!.withOpacity(0.6),
+        ),
       );
     }
 
@@ -93,32 +103,17 @@ class BubbleSpecialThree extends StatelessWidget {
                   padding: stateTick
                       ? const EdgeInsets.only(left: 4, right: 20)
                       : const EdgeInsets.only(left: 4, right: 4),
-                  child: Column(
-                    children: [
-                      Text(
-                        text,
-                        style: textStyle,
-                        textAlign: TextAlign.left,
-                      ),
-                      if (bottomRightText.isNotEmpty)
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Text(
-                            bottomRightText,
-                            style: textStyle.copyWith(
-                              fontSize: 12,
-                              color: textStyle.color!.withOpacity(0.6),
-                            ),
-                          ),
-                        ),
-                    ],
+                  child: Text(
+                    text,
+                    style: textStyle,
+                    textAlign: TextAlign.left,
                   ),
                 ),
-                stateIcon != null && stateTick
+                stateWidget != null && stateTick
                     ? Positioned(
                         bottom: 0,
                         right: 0,
-                        child: stateIcon,
+                        child: stateWidget,
                       )
                     : const SizedBox(
                         width: 1,
